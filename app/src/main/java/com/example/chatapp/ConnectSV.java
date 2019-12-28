@@ -69,11 +69,13 @@ public class ConnectSV extends AppCompatActivity{
 
     public void action_app(String noidung){
 
+
+
+
         switch (noidung){
             case "Start":
-               // Log.d("XXXXX",noidung + Loai);
+                MainActivity.getInstance().startting();
                 if(MainActivity.Loai == "Call"){
-
                     MainActivity.getInstance().makeCall();
                 }
                 break;

@@ -62,12 +62,12 @@ public class DialerActivity extends AppCompatActivity {
 
 
     public void makeCall() {
-        Uri uri = Uri.parse("tel:"+"0379661619");
-       Log.d("DDD","XXXXX");
-       // startActivity(new Intent(Intent.ACTION_CALL, uri));
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:"+"0379661619"));
-        startActivity (callIntent);
+//        Uri uri = Uri.parse("tel:"+"0379661619");
+//       Log.d("DDD","XXXXX");
+//       // startActivity(new Intent(Intent.ACTION_CALL, uri));
+//        Intent callIntent = new Intent(Intent.ACTION_CALL);
+//        callIntent.setData(Uri.parse("tel:"+"0379661619"));
+//        startActivity (callIntent);
 
     }
 
