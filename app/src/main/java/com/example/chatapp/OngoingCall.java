@@ -17,8 +17,9 @@ public class OngoingCall {
         @Override
         public void onStateChanged(Call call, int newState) {
             super.onStateChanged(call, newState);
-            state.onNext(newState);
             MainActivity.connectSV.sendValue(String.valueOf(call.getState()));
+            state.onNext(newState);
+
 
         }
     };

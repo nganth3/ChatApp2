@@ -37,7 +37,7 @@ public class DataCallAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        TextView txtID,txtSoDienThoai,txtNoidung;
+        TextView txtID,txtSoDienThoai,txtNoidung,txtKetqua;
     }
 
 
@@ -53,14 +53,16 @@ public class DataCallAdapter extends BaseAdapter {
            viewHolder.txtID = convertView.findViewById(R.id.textView_ID);
            viewHolder.txtNoidung = convertView.findViewById(R.id.textView_Noidung);
            viewHolder.txtSoDienThoai = convertView.findViewById(R.id.textView_Sodienthoai);
+           viewHolder.txtKetqua = convertView.findViewById(R.id.textView_Ketqua);
            convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         DataCall dataCall = DataCallList.get(position);
         viewHolder.txtSoDienThoai.setText(dataCall.getSodienthoai());
-        viewHolder.txtID.setText("ID: " + dataCall.getId()+" ___  ");
+        viewHolder.txtID.setText("ID: " + dataCall.getId()+" __ ");
         viewHolder.txtNoidung.setText(dataCall.getNoidung());
+        viewHolder.txtKetqua.setText(dataCall.getKetqua());
 
       return convertView;
     }

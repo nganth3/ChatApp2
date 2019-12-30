@@ -68,13 +68,17 @@ public class ConnectSV extends AppCompatActivity{
 
 
     public void action_app(String noidung){
+        int soID =0 ;
 
-
-
+        if(noidung.contains("Start_with ID")){
+            soID = Integer.parseInt(noidung.substring(14,noidung.length()));
+            noidung = "Start_with ID";
+        }
 
         switch (noidung){
+            case "Start_with ID":
+            MainActivity.getInstance().startting(soID);
             case "Start":
-                MainActivity.getInstance().startting();
                 if(MainActivity.Loai == "Call"){
                     MainActivity.getInstance().makeCall();
                 }

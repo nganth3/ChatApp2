@@ -25,11 +25,11 @@ import static android.telecom.TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE
 public class MainActivity extends AppCompatActivity {
     public static int REQUEST_PERMISSION = 0;
     public static EditText edtIP;
-    Button btnConect,btnStart;
+    Button btnGetData, btnConect,btnStart;
     RadioButton rdoSpeech,rdoCall;
     public static ConnectSV connectSV;
     public static  int solanSpeech = 0;
-    public static int soID = 0;
+    public static int soID;
     static String  Loai;
     public static TextView txtLoai,txtNoidung;
     private static MainActivity instance;
@@ -37,18 +37,25 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<DataCall> arrayList;
     public static   DataCallAdapter dataCallAdapter;
     public ListView lsDataCall;
-    String url;
+    String IP;
     GetData getData;
+    public static DataCall dataCalle_First;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        instance = this;
         anhXa();
        // arrayList = new ArrayList<>();
         btnConect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Log.d("soID", String.valueOf(soID));
+
                 connectSV = new ConnectSV();
                 if (rdoSpeech.isChecked()) {
                     Loai = "Speech";
@@ -57,37 +64,49 @@ public class MainActivity extends AppCompatActivity {
                     Loai = "Call";
                 }
                 connectSV.setmSocket(Loai);
-
-                arrayList = new ArrayList<>();
-                url = "http://"+edtIP.getText().toString()+"/androidwebservice/getdata.php";
-                getData = new GetData(MainActivity.this,url,arrayList);
-                getData.ReadJSON();
-                Log.d("XXXX",arrayList.size()+"");
-                dataCallAdapter = new DataCallAdapter(MainActivity.this,R.layout.layout_listview,arrayList);
-                lsDataCall.setAdapter(dataCallAdapter);
-               // dataCallAdapter.notifyDataSetChanged();
-                txtNoidung.setText(arrayList.size()+"");
-
-
             }
         });
-        instance = this;
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                connectSV.sendValue("Start");
+                connectSV.sendValue("Start_with ID:" + soID);
+            }
+
+
+        });
+
+        btnGetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soID = 0;
+                arrayList = new ArrayList<>();
+                IP=edtIP.getText().toString();
+                getData = new GetData(MainActivity.this,IP,arrayList);
+                getData.ReadJSON();
+                dataCallAdapter = new DataCallAdapter(MainActivity.this,R.layout.layout_listview,arrayList);
+                lsDataCall.setAdapter(dataCallAdapter);
+                // dataCallAdapter.notifyDataSetChanged();
+                //  getData.GetOneData();
             }
         });
 
     }
 
-    public void startting(){
+    public void startting(int ID){
+       int soluong = arrayList.size();
 
-        if(txtLoai.getText().equals("Call")){
-            txtNoidung.setText(arrayList.get(soID ++).getSodienthoai());
-        }else {
-            txtNoidung.setText(arrayList.get(soID ++).getNoidung());
-        }
+       if (ID <= soluong - 1) {
+           if (txtLoai.getText().equals("Call")) {
+               txtNoidung.setText(arrayList.get(ID).getSodienthoai());
+              // txtNoidung.setText(arrayList.get(ID).getNoidung());
+           } else {
+               txtNoidung.setText(arrayList.get(ID).getNoidung());
+           }
+           soID++;
+       }else{
+           txtNoidung.setText("Đã thực hiện hết DS");
+       }
 
     }
 
@@ -101,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         edtIP = findViewById(R.id.editText_IP);
         txtNoidung = findViewById(R.id.textView_noidung);
         lsDataCall = findViewById(R.id.ListView_Datacall);
+        btnGetData = findViewById(R.id.button_GetData);
     }
     @Override
     protected void onStart() {
@@ -132,15 +152,11 @@ public class MainActivity extends AppCompatActivity {
     public void makeCall() {
         Uri uri = Uri.parse("tel:0"+txtNoidung.getText());
         Log.d("DDD","XXXXX");
-        startActivity(new Intent(Intent.ACTION_CALL, uri));
-
-
-/*
+        startActivity(new Intent(Intent.ACTION_CALL, uri));/*
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
 
        }
 */
-
     }
     public static MainActivity getInstance(){
         return instance;
