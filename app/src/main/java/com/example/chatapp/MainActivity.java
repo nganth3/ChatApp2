@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startting(int ID){
        int soluong = arrayList.size();
-
+       // "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
        if (ID <= soluong - 1) {
            if (txtLoai.getText().equals("Call")) {
                txtNoidung.setText(arrayList.get(ID).getSodienthoai());
